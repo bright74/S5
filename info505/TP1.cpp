@@ -1,5 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
+
+
 using namespace std;
 
 	struct Arbre
@@ -54,7 +56,7 @@ using namespace std;
 	}
 
 	void retire(int elem, Arbre * arb){
-	 	if (arb == NULL) {
+	 	if ((arb == NULL) or (arb->ind == 0)) {
 	 		cout << "impossible" << endl;
 	 	}
 	 	else{
@@ -97,11 +99,43 @@ using namespace std;
 	 	}
 	}
 	
+	int elem_Rang(Arbre * arb, int rang){
+		int rg_pere = (1 + arb->arbg->taille);
+		if(rg_pere == rang){
+			return arb->ind;
+		}
+		else{
+			if(rg_pere>rang){
+				elem_Rang(arb->arbg, rang);
+			}
+			else{
+					elem_Rang(arb->arbd, (rang-rg_pere));
+			}
+		}
+	}
+
+	int rang_Elem(Arbre * arb, int elem){
+	if (arb->ind == elem){
+		return (1+arb->arbg->taille);
+	}
+	else{
+		if(arb->ind > elem){
+			rang_Elem(arb->arbg, elem);
+		}
+		else{
+			(1+(arb->arbg->taille)) + rang_Elem(arb->arbd, elem);
+		}
+	}
+
+	
+	}
+
 	 int main ()
 	 {
 	 	Arbre * arb = new Arbre(4);
 	 	cout << arb->ind << endl;
 	 	retire(4, arb);
 	 	cout << arb->ind << endl;
+	 	retire(0, arb);
 	 	return 1;
 	 }
